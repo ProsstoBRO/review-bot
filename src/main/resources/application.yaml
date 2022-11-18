@@ -4,17 +4,19 @@ bot:
   password: ${BOT_PASSWORD}
 
 spring:
-  datasource:
+  data:
+    mongodb:
+      authentication-database: admin
+      username: rootuser
+      password: rootpass
+      database: review-bot
+      port: 27017
+      host: localhost
+  #  datasource:
 #    url: jdbc:h2:mem:test
-    url: jdbc:h2:file:./review-bot-db
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-  h2:
-    console.enabled: true
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: update
-  flyway:
-    enabled: false
+#    url: jdbc:h2:file:./review-bot-db
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+
+

@@ -6,15 +6,21 @@ import com.prosstobro.reviewbot.domain.Role
 import com.prosstobro.reviewbot.domain.User
 import com.prosstobro.reviewbot.repository.JiraTaskRepository
 import com.prosstobro.reviewbot.repository.UserRepository
+import com.prosstobro.reviewbot.utils.DbSequenceGenerator
 import org.springframework.stereotype.Service
-import javax.transaction.Transactional
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-class JiraTaskService(val jiraTaskRepository: JiraTaskRepository, val userRepository: UserRepository) {
+class JiraTaskService(
+    val dbSequenceGenerator: DbSequenceGenerator,
+    val jiraTaskRepository: JiraTaskRepository,
+    val userRepository: UserRepository
+) {
 
     @Transactional
     fun createJiraTask(url: String, name: String, developer: User): JiraTask {
         val jiraTask = JiraTask(url, name, developer, null, CREATED)
+        jiraTask.id = dbSequenceGenerator.getNextSequence(JiraTask.SEQUENCE_NAME)
         return jiraTaskRepository.save(jiraTask)
     }
 
