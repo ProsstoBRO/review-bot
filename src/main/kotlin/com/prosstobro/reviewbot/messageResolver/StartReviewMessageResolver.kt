@@ -14,10 +14,10 @@ class StartReviewMessageResolver(val jiraTaskService: JiraTaskService) : Message
 
     override fun processAndCreateAnswer(request: TgRequest): List<TgResponse> {
         val jiraTaskId = request.data.split("_").last()
-        val changedTask = jiraTaskService.startReview(jiraTaskId.toLong())
+        val changedTask = jiraTaskService.startReview(jiraTaskId.toLong(), request.user!!.id)
         return listOf(
             TgResponse(request.chatId, "Задача ${changedTask.url} взята в ревью. ", null),
-            TgResponse(changedTask.developer.chatId, "@${changedTask.reviewer?.tgLogin} начал ревью", null)
+            TgResponse(changedTask.developer.chatId, "@${changedTask.reviewer?.tgLogin} начал ревью ${changedTask.name}", null)
         )
     }
 }

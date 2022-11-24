@@ -2,7 +2,8 @@ package com.prosstobro.reviewbot.service
 
 import com.prosstobro.reviewbot.domain.JiraTask
 import com.prosstobro.reviewbot.domain.JiraTaskStatus.*
-import com.prosstobro.reviewbot.domain.Role
+import com.prosstobro.reviewbot.domain.JiraTaskType
+import com.prosstobro.reviewbot.domain.JiraTaskType.UNKNOWN
 import com.prosstobro.reviewbot.domain.User
 import com.prosstobro.reviewbot.repository.JiraTaskRepository
 import com.prosstobro.reviewbot.repository.UserRepository
@@ -14,7 +15,7 @@ class JiraTaskService(val jiraTaskRepository: JiraTaskRepository, val userReposi
 
     @Transactional
     fun createJiraTask(url: String, name: String, developer: User): JiraTask {
-        val jiraTask = JiraTask(url, name, developer, null, CREATED)
+        val jiraTask = JiraTask(url, name, developer, null, CREATED, UNKNOWN)
         return jiraTaskRepository.save(jiraTask)
     }
 
@@ -36,22 +37,13 @@ class JiraTaskService(val jiraTaskRepository: JiraTaskRepository, val userReposi
     }
 
     @Transactional
-    fun startReview(taskId: Long): JiraTask {
+    fun startReview(taskId: Long, reviewerId: Long): JiraTask {
         val task = jiraTaskRepository.findById(taskId).get()
+        if (task.reviewer == null) {
+            setReviewerForTask(taskId, reviewerId)
+        }
         task.status = IN_REVIEW
         return jiraTaskRepository.save(task)
-    }
-
-    @Transactional
-    fun getReviewersForTask(taskId: Long): Set<User> {
-        val developer = jiraTaskRepository.findById(taskId).get().developer
-        return userRepository.findAllByRolesAndIdNot(Role.REVIEWER, developer.id)
-    }
-
-    @Transactional
-    fun getTasksInReview(reviewerId: Long): List<JiraTask> {
-        val reviewer = userRepository.findById(reviewerId).get()
-        return jiraTaskRepository.findAllByReviewerAndStatusIn(reviewer, listOf(IN_REVIEW))
     }
 
     @Transactional
@@ -94,4 +86,10 @@ class JiraTaskService(val jiraTaskRepository: JiraTaskRepository, val userReposi
         return jiraTaskRepository.save(task)
     }
 
+    @Transactional
+    fun changeTaskType(taskId: Long, newTaskType: JiraTaskType): JiraTask {
+        val task = jiraTaskRepository.findById(taskId).get()
+        task.type = newTaskType
+        return jiraTaskRepository.save(task)
+    }
 }

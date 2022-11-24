@@ -1,6 +1,5 @@
 package com.prosstobro.reviewbot.messageResolver
 
-import com.prosstobro.reviewbot.domain.Role.REVIEWER
 import com.prosstobro.reviewbot.domain.TgRequest
 import com.prosstobro.reviewbot.domain.TgResponse
 import com.prosstobro.reviewbot.repository.UserRepository
@@ -27,8 +26,8 @@ class CreateTaskMessageResolver(
             tgResponses.add(
                 TgResponse(
                     developer.chatId,
-                    "Задача ${request.data.split("/").last()} создана! Выберите ревьюера:",
-                    keyboardUtils.createReviewersListKeyboard(userRepository.findAllByRoles(REVIEWER), jiraTask.id.toString())
+                    "Задача ${request.data.split("/").last()} создана!",
+                    keyboardUtils.createTaskTypesListKeyboard(jiraTask.id.toString())
                 )
             )
         }

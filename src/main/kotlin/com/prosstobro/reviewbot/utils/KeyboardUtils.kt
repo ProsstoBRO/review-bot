@@ -20,12 +20,23 @@ class KeyboardUtils {
             buttons.add(createButton("Список моих задач", "/my_tasks"))
         if (roles.contains(REVIEWER))
             buttons.add(createButton("Список моих ревью", "/tasks_in_review"))
+        if (roles.contains(REVIEWER))
+            buttons.add(createButton("Список дефектов на ревью", "/defects_on_review"))
         if (roles.contains(ADMIN))
             buttons.add(createButton("Статус задач", "/tasks_status"))
         if (roles.contains(ADMIN))
             buttons.add(createButton("Изменить роли", "/change_users_roles"))
 
         return InlineKeyboardMarkup(buttons)
+    }
+
+    fun createTaskTypesListKeyboard(taskId: String): InlineKeyboardMarkup {
+        return InlineKeyboardMarkup(
+            listOf(
+                createButton("Реализация", "/type_story_${taskId}"),
+                createButton("Дефект", "/type_defect_${taskId}")
+            )
+        )
     }
 
     fun createReviewersListKeyboard(reviewers: Set<User>, taskId: String): InlineKeyboardMarkup {
@@ -84,9 +95,21 @@ class KeyboardUtils {
         )
     }
 
+    fun createActionsForCreatedDefect(jiraTask: JiraTask): InlineKeyboardMarkup {
+        return InlineKeyboardMarkup(
+            listOf(
+                createButton("Взять в ревью", "/start_review_${jiraTask.id}"),
+                createButton("Изменить ревьюера", "/change_reviewer_for_task_${jiraTask.id}")
+            )
+        )
+    }
+
     fun createActionsForTaskApproved(jiraTask: JiraTask): InlineKeyboardMarkup {
         return InlineKeyboardMarkup(
-            listOf(createButton("Закрыть", "/close_task_${jiraTask.id}"))
+            listOf(
+                createButton("Закрыть", "/close_task_${jiraTask.id}"),
+                createButton("Изменить ревьюера", "/change_reviewer_for_task_${jiraTask.id}")
+            )
         )
     }
 
@@ -99,9 +122,17 @@ class KeyboardUtils {
         )
     }
 
-    private fun createButton(text: String, callbackData: String): List<InlineKeyboardButton> {
+    fun createButton(text: String, callbackData: String): List<InlineKeyboardButton> {
         val button = InlineKeyboardButton(text)
         button.callbackData = callbackData
         return listOf(button)
+    }
+
+    fun createChangeReviewer(jiraTask: JiraTask): InlineKeyboardMarkup? {
+        return InlineKeyboardMarkup(
+            listOf(
+                createButton("Изменить ревьюера", "/change_reviewer_for_task_${jiraTask.id}")
+            )
+        )
     }
 }

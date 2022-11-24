@@ -7,6 +7,7 @@ spring:
   datasource:
 #    url: jdbc:h2:mem:test
     url: jdbc:h2:file:./review-bot-db
+#    url: jdbc:h2:file:./testing
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -15,6 +16,6 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
   flyway:
     enabled: false

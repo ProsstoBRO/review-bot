@@ -1,6 +1,7 @@
 package com.prosstobro.reviewbot.domain
 
 import javax.persistence.*
+import javax.persistence.EnumType.STRING
 
 @Entity
 class JiraTask(
@@ -10,8 +11,10 @@ class JiraTask(
     val developer: User,
     @OneToOne
     var reviewer: User?,
-    @Enumerated(value = EnumType.STRING)
-    var status: JiraTaskStatus
+    @Enumerated(value = STRING)
+    var status: JiraTaskStatus,
+    @Enumerated(value = STRING)
+    var type: JiraTaskType
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
