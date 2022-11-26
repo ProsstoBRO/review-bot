@@ -1,22 +1,24 @@
 package com.prosstobro.reviewbot.domain
 
-import javax.persistence.*
-import javax.persistence.EnumType.STRING
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
 
-@Entity
+@Document
 class JiraTask(
     val url: String,
     val name: String,
-    @OneToOne
     val developer: User,
-    @OneToOne
     var reviewer: User?,
     @Enumerated(value = STRING)
     var status: JiraTaskStatus,
     @Enumerated(value = STRING)
     var type: JiraTaskType
+    var status: JiraTaskStatus
 ) {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = -1
+    var id: Long = -1
+
+    companion object {
+        const val SEQUENCE_NAME = "TASK_SEQUENCE"
+    }
 }
