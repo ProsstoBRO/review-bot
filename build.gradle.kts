@@ -24,11 +24,17 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("org.telegram:telegrambots-spring-boot-starter:6.1.0")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	implementation("org.flywaydb:flyway-core")
+	implementation("io.micrometer:micrometer-registry-prometheus:1.10.2")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+	runtimeOnly("com.h2database:h2")
+	runtimeOnly("org.postgresql:postgresql")
+	compileOnly("org.projectlombok:lombok")
 	implementation("org.junit.jupiter:junit-jupiter:5.9.0")
 	implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
 	implementation("org.springframework.data:spring-data-mongodb:3.4.5")
@@ -37,6 +43,8 @@ dependencies {
 	testImplementation("org.testcontainers:mongodb:1.17.6")
 	testImplementation("org.testcontainers:testcontainers:1.17.6")
 	testImplementation("org.testcontainers:junit-jupiter:1.17.6")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
