@@ -3,7 +3,6 @@ package com.prosstobro.reviewbot.repository
 import com.prosstobro.reviewbot.domain.Role
 import com.prosstobro.reviewbot.domain.User
 import org.springframework.data.mongodb.repository.MongoRepository
-import java.math.BigInteger
 
 interface UserRepository : MongoRepository<User, Long> {
     fun findByChatId(chatId: Long): User?

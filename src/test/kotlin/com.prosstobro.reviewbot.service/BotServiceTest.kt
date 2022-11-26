@@ -9,6 +9,7 @@ import com.prosstobro.reviewbot.domain.TgResponse
 import com.prosstobro.reviewbot.domain.User
 import com.prosstobro.reviewbot.repository.JiraTaskRepository
 import com.prosstobro.reviewbot.repository.UserRepository
+import com.prosstobro.reviewbot.utils.DbSequenceGenerator
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -16,30 +17,35 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.core.io.ResourceLoader
-import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.testcontainers.junit.jupiter.Testcontainers
+import utils.DatabaseContainerConfiguration
 import utils.PrettyPrinter
+
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest
-@ActiveProfiles("test")
-internal class BotServiceTest {
+@Testcontainers
+class BotServiceTest : DatabaseContainerConfiguration() {
+
     @Autowired
     private lateinit var resourceLoader: ResourceLoader
 
     @Autowired
     lateinit var botService: BotService
-
     @Autowired
     lateinit var userRepository: UserRepository
-
     @Autowired
     lateinit var taskRepository: JiraTaskRepository
+    @Autowired
+    lateinit var dbSequenceGenerator: DbSequenceGenerator
+
 
     final var objectMapper = ObjectMapper()
 
     var developer = User("developer", 1L, "developerName", "developerLastName")
     var reviewer = User("reviewer", 2L, "reviewerName", "reviewerLastName")
+
 
     init {
         objectMapper.setDefaultPrettyPrinter(PrettyPrinter())
@@ -51,10 +57,12 @@ internal class BotServiceTest {
         taskRepository.deleteAll()
 
         developer.roles.add(DEVELOPER)
+        developer.id = dbSequenceGenerator.getNextSequence(User.SEQUENCE_NAME)
         userRepository.save(developer)
         developer = userRepository.findByChatId(developer.chatId)!!
 
         reviewer.roles.add(REVIEWER)
+        reviewer.id = dbSequenceGenerator.getNextSequence(User.SEQUENCE_NAME)
         userRepository.save(reviewer)
         reviewer = userRepository.findByChatId(reviewer.chatId)!!
     }
@@ -199,9 +207,7 @@ internal class BotServiceTest {
 
     private fun commandStartRequest(): TgRequest = TgRequest(developer.chatId, "/start", developer)
     private fun commandCreateRequest(): TgRequest = TgRequest(developer.chatId, "/create", developer)
-    private fun createTaskRequest(): TgRequest =
-        TgRequest(developer.chatId, "https://task.corp.dev/TASK_1234", developer)
-
+    private fun createTaskRequest(): TgRequest = TgRequest(developer.chatId, "https://task.corp.dev/TASK_1234", developer)
     private fun callbackRequest(callback: String, user: User): TgRequest = TgRequest(user.chatId, callback, user)
     private fun commandMyTasksListRequest(): TgRequest = TgRequest(developer.chatId, "/my_tasks", developer)
     private fun commandMyReviewListRequest(): TgRequest = TgRequest(reviewer.chatId, "/tasks_in_review", reviewer)

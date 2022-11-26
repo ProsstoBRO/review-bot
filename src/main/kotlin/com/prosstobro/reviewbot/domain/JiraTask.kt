@@ -9,11 +9,8 @@ class JiraTask(
     val name: String,
     val developer: User,
     var reviewer: User?,
-    @Enumerated(value = STRING)
     var status: JiraTaskStatus,
-    @Enumerated(value = STRING)
     var type: JiraTaskType
-    var status: JiraTaskStatus
 ) {
     @Id
     var id: Long = -1

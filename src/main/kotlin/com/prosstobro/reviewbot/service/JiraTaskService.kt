@@ -21,7 +21,6 @@ class JiraTaskService(
     @Transactional
     fun createJiraTask(url: String, name: String, developer: User): JiraTask {
         val jiraTask = JiraTask(url, name, developer, null, CREATED, UNKNOWN)
-        val jiraTask = JiraTask(url, name, developer, null, CREATED)
         jiraTask.id = dbSequenceGenerator.getNextSequence(JiraTask.SEQUENCE_NAME)
         return jiraTaskRepository.save(jiraTask)
     }
