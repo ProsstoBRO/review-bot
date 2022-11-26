@@ -1,0 +1,22 @@
+[
+  {
+    "chatId": 1,
+    "text": "Выберете действие:",
+    "keyboardMarkup": {
+      "inline_keyboard": [
+        [
+          {
+            "text": "Создать задачу",
+            "callback_data": "/create"
+          }
+        ],
+        [
+          {
+            "text": "Список моих задач",
+            "callback_data": "/my_tasks"
+          }
+        ]
+      ]
+    }
+  }
+]

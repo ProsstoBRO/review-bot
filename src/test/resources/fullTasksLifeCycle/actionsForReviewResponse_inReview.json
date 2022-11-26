@@ -1,0 +1,22 @@
+[
+  {
+    "chatId": 2,
+    "text": "Выберите действие",
+    "keyboardMarkup": {
+      "inline_keyboard": [
+        [
+          {
+            "text": "Одобрить",
+            "callback_data": "/approve_review_1"
+          }
+        ],
+        [
+          {
+            "text": "Вернуть на доработку",
+            "callback_data": "/return_review_to_work_1"
+          }
+        ]
+      ]
+    }
+  }
+]

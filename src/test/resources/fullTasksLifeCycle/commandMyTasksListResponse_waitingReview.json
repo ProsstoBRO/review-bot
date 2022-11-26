@@ -1,0 +1,16 @@
+[
+  {
+    "chatId": 1,
+    "text": "Ваши активные задачи",
+    "keyboardMarkup": {
+      "inline_keyboard": [
+        [
+          {
+            "text": "TASK_1234: Ожидает ревью",
+            "callback_data": "/actions_for_task_1"
+          }
+        ]
+      ]
+    }
+  }
+]

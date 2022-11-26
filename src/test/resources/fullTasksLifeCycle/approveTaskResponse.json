@@ -1,0 +1,12 @@
+[
+  {
+    "chatId": 2,
+    "text": "Задача TASK_1234 одобрена!",
+    "keyboardMarkup": null
+  },
+  {
+    "chatId": 1,
+    "text": "Задача TASK_1234 одобрена! Не забудь протестить на ДСО и закрыть потом в Jira!",
+    "keyboardMarkup": null
+  }
+]

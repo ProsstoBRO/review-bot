@@ -1,0 +1,22 @@
+[
+  {
+    "chatId": 1,
+    "text": "Выберите действие",
+    "keyboardMarkup": {
+      "inline_keyboard": [
+        [
+          {
+            "text": "Закрыть",
+            "callback_data": "/close_task_1"
+          }
+        ],
+        [
+          {
+            "text": "Изменить ревьюера",
+            "callback_data": "/change_reviewer_for_task_1"
+          }
+        ]
+      ]
+    }
+  }
+]

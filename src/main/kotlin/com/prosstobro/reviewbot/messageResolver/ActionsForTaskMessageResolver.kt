@@ -20,7 +20,6 @@ class ActionsForTaskMessageResolver(val jiraTaskRepository: JiraTaskRepository, 
         val taskId = request.data.split("_").last().toLong()
         val task = jiraTaskRepository.findById(taskId).get()
 
-
         return if (CREATED == task.status && DEFECT == task.type)
             listOf(TgResponse(request.chatId, "Выберите действие", keyboardUtils.createActionsForCreatedDefect(task)))
         else if (NOT_APPROVED == task.status)

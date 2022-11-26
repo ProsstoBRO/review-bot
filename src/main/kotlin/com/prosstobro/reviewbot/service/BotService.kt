@@ -3,6 +3,7 @@ package com.prosstobro.reviewbot.service
 import com.prosstobro.reviewbot.domain.TgRequest
 import com.prosstobro.reviewbot.domain.TgResponse
 import com.prosstobro.reviewbot.domain.User
+import com.prosstobro.reviewbot.messageResolver.LoginMessageResolver
 import com.prosstobro.reviewbot.messageResolver.MessageResolver
 import com.prosstobro.reviewbot.messageResolver.UnknownRequestMessageResolver
 import com.prosstobro.reviewbot.repository.UserRepository
@@ -20,7 +21,7 @@ class BotService(
     val userRepository: UserRepository,
     val messageResolvers: MutableMap<String, MessageResolver>,
     val unknownRequestMessageResolver: UnknownRequestMessageResolver,
-    val loginMessageResolver: MessageResolver
+    val loginMessageResolver: LoginMessageResolver
 ) : TelegramLongPollingBot() {
 
     private val logger = KotlinLogging.logger {}
@@ -46,26 +47,32 @@ class BotService(
             deleteLastMessageIfPressButton(update)
             val request: TgRequest = getRequestFromUpdate(update)
 
-            logger.info { "Received message: '${request.data}' from chatId: '${request.chatId}' user: '${request.user.toString()}'" }
-
-            var tgResponses = loginMessageResolver.processAndCreateAnswer(request)
-            if (tgResponses.isEmpty()) {
-                val messageResolver: MessageResolver = messageResolvers.values.stream()
-                    .filter { messageResolver -> messageResolver.requestTypeIsMatched(request) }
-                    .findFirst().orElse(unknownRequestMessageResolver)
-
-                logger.info { "${messageResolver::class.simpleName} process message: '${request.data}'" }
-                tgResponses = messageResolver.processAndCreateAnswer(request)
-            }
+            val tgResponses = processMessage(request)
 
             sendTgResponse(tgResponses)
             logger.info { "Send answers: '$tgResponses'" }
         }
     }
 
+    fun processMessage(request: TgRequest): List<TgResponse> {
+        logger.info { "Received message: '${request.data}' from chatId: '${request.chatId}' user: '${request.user.toString()}'" }
+
+        var tgResponses = loginMessageResolver.processAndCreateAnswer(request)
+        if (tgResponses.isEmpty()) {
+            val messageResolver: MessageResolver = messageResolvers.values.stream()
+                .filter { messageResolver -> messageResolver.requestTypeIsMatched(request) }
+                .findFirst().orElse(unknownRequestMessageResolver)
+
+            logger.info { "${messageResolver::class.simpleName} process message: '${request.data}'" }
+            tgResponses = messageResolver.processAndCreateAnswer(request)
+        }
+
+        return tgResponses
+    }
+
     private fun getRequestFromUpdate(update: Update) = if (update.hasMessage()) {
         var user = userRepository.findByChatId(update.message.chatId)
-        if (update.message.from.lastName == null){
+        if (update.message.from.lastName == null) {
             update.message.from.lastName = ""
         }
         if (user == null) {

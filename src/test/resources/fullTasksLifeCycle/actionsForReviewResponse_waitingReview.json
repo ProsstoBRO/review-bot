@@ -1,0 +1,16 @@
+[
+  {
+    "chatId": 2,
+    "text": "Выберите действие",
+    "keyboardMarkup": {
+      "inline_keyboard": [
+        [
+          {
+            "text": "Взять в ревью",
+            "callback_data": "/start_review_1"
+          }
+        ]
+      ]
+    }
+  }
+]

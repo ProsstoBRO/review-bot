@@ -1,0 +1,12 @@
+[
+  {
+    "chatId": 2,
+    "text": "Тебе назначена задача на ревью TASK_1234",
+    "keyboardMarkup": null
+  },
+  {
+    "chatId": 1,
+    "text": "Ревьюер был успешно назначен",
+    "keyboardMarkup": null
+  }
+]

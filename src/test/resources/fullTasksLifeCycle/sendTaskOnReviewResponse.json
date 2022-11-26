@@ -1,0 +1,12 @@
+[
+  {
+    "chatId": 1,
+    "text": "Задача TASK_1234 отправлена на ревью",
+    "keyboardMarkup": null
+  },
+  {
+    "chatId": 2,
+    "text": "Задача TASK_1234 готова к ревью",
+    "keyboardMarkup": null
+  }
+]
