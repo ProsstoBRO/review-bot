@@ -12,7 +12,7 @@ class LoginMessageResolver(val userService: UserService) : MessageResolver {
     @Value("\${bot.password}")
     private val botPassword: String = ""
 
-    override fun requestTypeIsMatched(request: TgRequest): Boolean {
+    override fun requestTypeIsMatched(request: String): Boolean {
         return false
     }
 

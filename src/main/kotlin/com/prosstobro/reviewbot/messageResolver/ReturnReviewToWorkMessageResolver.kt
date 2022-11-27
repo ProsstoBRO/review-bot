@@ -10,8 +10,8 @@ class ReturnReviewToWorkMessageResolver(
     val jiraTaskService: JiraTaskService
 ) : MessageResolver {
 
-    override fun requestTypeIsMatched(request: TgRequest): Boolean {
-        return request.data.contains(Regex("/return_review_to_work_(\\d+)"))
+    override fun requestTypeIsMatched(request: String): Boolean {
+        return request.contains(Regex("/return_review_to_work_(\\d+)"))
     }
 
     override fun processAndCreateAnswer(request: TgRequest): List<TgResponse> {

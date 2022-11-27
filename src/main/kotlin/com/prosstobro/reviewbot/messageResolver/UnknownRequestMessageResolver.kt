@@ -1,13 +1,13 @@
 package com.prosstobro.reviewbot.messageResolver
 
-import com.prosstobro.reviewbot.domain.TgResponse
 import com.prosstobro.reviewbot.domain.TgRequest
+import com.prosstobro.reviewbot.domain.TgResponse
 import org.springframework.stereotype.Component
 
 @Component
 class UnknownRequestMessageResolver : MessageResolver {
 
-    override fun requestTypeIsMatched(request: TgRequest): Boolean {
+    override fun requestTypeIsMatched(request: String): Boolean {
         return true
     }
 

@@ -14,8 +14,8 @@ class CommandDefectsOnReviewListMessageResolver(
     val keyboardUtils: KeyboardUtils
 ) : MessageResolver {
 
-    override fun requestTypeIsMatched(request: TgRequest): Boolean {
-        return request.data == "/defects_on_review"
+    override fun requestTypeIsMatched(request: String): Boolean {
+        return request == "/defects_on_review"
     }
 
     override fun processAndCreateAnswer(request: TgRequest): List<TgResponse> {

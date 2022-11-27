@@ -60,7 +60,7 @@ class BotService(
         var tgResponses = loginMessageResolver.processAndCreateAnswer(request)
         if (tgResponses.isEmpty()) {
             val messageResolver: MessageResolver = messageResolvers.values.stream()
-                .filter { messageResolver -> messageResolver.requestTypeIsMatched(request) }
+                .filter { messageResolver -> messageResolver.requestTypeIsMatched(request.data) }
                 .findFirst().orElse(unknownRequestMessageResolver)
 
             logger.info { "${messageResolver::class.simpleName} process message: '${request.data}'" }

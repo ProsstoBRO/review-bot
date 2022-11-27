@@ -18,8 +18,8 @@ class ChangeTaskTypeMessageResolver(
     val userRepository: UserRepository
 ) : MessageResolver {
 
-    override fun requestTypeIsMatched(request: TgRequest): Boolean {
-        return request.data.startsWith("/type_")
+    override fun requestTypeIsMatched(request: String): Boolean {
+        return request.startsWith("/type_")
     }
 
     override fun processAndCreateAnswer(request: TgRequest): List<TgResponse> {

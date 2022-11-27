@@ -12,8 +12,8 @@ class CommandMyTasksListMessageResolver(
     val keyboardUtils: KeyboardUtils
 ) : MessageResolver {
 
-    override fun requestTypeIsMatched(request: TgRequest): Boolean {
-        return request.data == "/my_tasks"
+    override fun requestTypeIsMatched(request: String): Boolean {
+        return request == "/my_tasks"
     }
 
     override fun processAndCreateAnswer(request: TgRequest): List<TgResponse> {

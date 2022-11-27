@@ -14,8 +14,8 @@ class CreateTaskMessageResolver(
     val keyboardUtils: KeyboardUtils
 ) : MessageResolver {
 
-    override fun requestTypeIsMatched(request: TgRequest): Boolean {
-        return request.data.startsWith("https://task.corp.dev")
+    override fun requestTypeIsMatched(request: String): Boolean {
+        return request.startsWith("https://task.corp.dev")
     }
 
     override fun processAndCreateAnswer(request: TgRequest): List<TgResponse> {

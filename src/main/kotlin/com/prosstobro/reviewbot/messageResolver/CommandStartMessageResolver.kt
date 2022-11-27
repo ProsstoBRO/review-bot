@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component
 @Component
 class CommandStartMessageResolver(val keyboardUtils: KeyboardUtils) : MessageResolver {
 
-    override fun requestTypeIsMatched(request: TgRequest): Boolean {
-        return request.data == "/start"
+    override fun requestTypeIsMatched(request: String): Boolean {
+        return request == "/start"
     }
 
     override fun processAndCreateAnswer(request: TgRequest): List<TgResponse> {

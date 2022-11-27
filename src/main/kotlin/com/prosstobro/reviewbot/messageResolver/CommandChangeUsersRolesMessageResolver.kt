@@ -11,8 +11,8 @@ import java.util.stream.Collectors
 class CommandChangeUsersRolesMessageResolver(val usersRepository: UserRepository, val keyboardUtils: KeyboardUtils) :
     MessageResolver {
 
-    override fun requestTypeIsMatched(request: TgRequest): Boolean {
-        return request.data == "/change_users_roles"
+    override fun requestTypeIsMatched(request: String): Boolean {
+        return request == "/change_users_roles"
     }
 
     override fun processAndCreateAnswer(request: TgRequest): List<TgResponse> {

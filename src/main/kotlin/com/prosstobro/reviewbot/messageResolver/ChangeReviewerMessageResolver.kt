@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component
 class ChangeReviewerMessageResolver(val userRepository: UserRepository, val keyboardUtils: KeyboardUtils) :
     MessageResolver {
 
-    override fun requestTypeIsMatched(request: TgRequest): Boolean {
-        return request.data.contains(Regex("/change_reviewer_for_task_(\\d+)"))
+    override fun requestTypeIsMatched(request: String): Boolean {
+        return request.contains(Regex("/change_reviewer_for_task_(\\d+)"))
     }
 
     override fun processAndCreateAnswer(request: TgRequest): List<TgResponse> {

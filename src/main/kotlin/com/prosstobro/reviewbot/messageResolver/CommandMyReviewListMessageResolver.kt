@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component
 class CommandMyReviewListMessageResolver(val jiraTaskService: JiraTaskService, val keyboardUtils: KeyboardUtils) :
     MessageResolver {
 
-    override fun requestTypeIsMatched(request: TgRequest): Boolean {
-        return request.data == "/tasks_in_review"
+    override fun requestTypeIsMatched(request: String): Boolean {
+        return request == "/tasks_in_review"
     }
 
     override fun processAndCreateAnswer(request: TgRequest): List<TgResponse> {

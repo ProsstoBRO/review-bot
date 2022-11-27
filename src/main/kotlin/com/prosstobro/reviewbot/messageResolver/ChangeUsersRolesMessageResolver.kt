@@ -13,8 +13,8 @@ import java.util.stream.Collectors
 class ChangeUsersRolesMessageResolver(val userService: UserService, val keyboardUtils: KeyboardUtils) :
     MessageResolver {
 
-    override fun requestTypeIsMatched(request: TgRequest): Boolean {
-        return request.data.contains(Regex("[A-Za-z0-9]+\\([^)]*\\)"))
+    override fun requestTypeIsMatched(request: String): Boolean {
+        return request.contains(Regex("[A-Za-z0-9]+\\([^)]*\\)"))
     }
 
     override fun processAndCreateAnswer(request: TgRequest): List<TgResponse> {

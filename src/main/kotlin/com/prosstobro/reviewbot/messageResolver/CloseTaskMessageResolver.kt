@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component
 @Component
 class CloseTaskMessageResolver(val jiraTaskService: JiraTaskService): MessageResolver {
 
-    override fun requestTypeIsMatched(request: TgRequest): Boolean {
-        return request.data.contains(Regex("/close_task_(\\d+)"))
+    override fun requestTypeIsMatched(request: String): Boolean {
+        return request.contains(Regex("/close_task_(\\d+)"))
     }
 
     override fun processAndCreateAnswer(request: TgRequest): List<TgResponse> {

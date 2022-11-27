@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component
 @Component
 class SetReviewerForTaskMessageResolver(val jiraTaskService: JiraTaskService) : MessageResolver {
 
-    override fun requestTypeIsMatched(request: TgRequest): Boolean {
-        return request.data.contains(Regex("/set_reviewer_(\\d+)_for_task_(\\d+)"))
+    override fun requestTypeIsMatched(request: String): Boolean {
+        return request.contains(Regex("/set_reviewer_(\\d+)_for_task_(\\d+)"))
     }
 
     override fun processAndCreateAnswer(request: TgRequest): List<TgResponse> {

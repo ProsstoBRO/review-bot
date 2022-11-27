@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component
 class ActionsForTaskMessageResolver(val jiraTaskRepository: JiraTaskRepository, val keyboardUtils: KeyboardUtils) :
     MessageResolver {
 
-    override fun requestTypeIsMatched(request: TgRequest): Boolean {
-        return request.data.contains(Regex("/actions_for_task_(\\d+)"))
+    override fun requestTypeIsMatched(request: String): Boolean {
+        return request.contains(Regex("/actions_for_task_(\\d+)"))
     }
 
     override fun processAndCreateAnswer(request: TgRequest): List<TgResponse> {

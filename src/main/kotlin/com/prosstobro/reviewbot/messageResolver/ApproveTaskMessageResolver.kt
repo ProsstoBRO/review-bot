@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component
 @Component
 class ApproveTaskMessageResolver(val jiraTaskService: JiraTaskService) : MessageResolver {
 
-    override fun requestTypeIsMatched(request: TgRequest): Boolean {
-        return request.data.contains(Regex("/approve_review_(\\d+)"))
+    override fun requestTypeIsMatched(request: String): Boolean {
+        return request.contains(Regex("/approve_review_(\\d+)"))
     }
 
     override fun processAndCreateAnswer(request: TgRequest): List<TgResponse> {

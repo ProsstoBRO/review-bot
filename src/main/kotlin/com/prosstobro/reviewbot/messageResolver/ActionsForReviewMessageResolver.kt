@@ -1,6 +1,7 @@
 package com.prosstobro.reviewbot.messageResolver
 
-import com.prosstobro.reviewbot.domain.JiraTaskStatus.*
+import com.prosstobro.reviewbot.domain.JiraTaskStatus.IN_REVIEW
+import com.prosstobro.reviewbot.domain.JiraTaskStatus.WAITING_FOR_REVIEW
 import com.prosstobro.reviewbot.domain.TgRequest
 import com.prosstobro.reviewbot.domain.TgResponse
 import com.prosstobro.reviewbot.repository.JiraTaskRepository
@@ -10,8 +11,8 @@ import org.springframework.stereotype.Component
 @Component
 class ActionsForReviewMessageResolver(val jiraTaskRepository: JiraTaskRepository, val keyboardUtils: KeyboardUtils): MessageResolver {
 
-    override fun requestTypeIsMatched(request: TgRequest): Boolean {
-        return request.data.contains(Regex("/actions_for_review_(\\d+)"))
+    override fun requestTypeIsMatched(request: String): Boolean {
+        return request.contains(Regex("/actions_for_review_(\\d+)"))
     }
 
     override fun processAndCreateAnswer(request: TgRequest): List<TgResponse> {
