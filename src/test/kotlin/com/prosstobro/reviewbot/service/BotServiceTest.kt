@@ -42,13 +42,11 @@ class BotServiceTest : DatabaseContainerConfiguration() {
     @Autowired
     lateinit var dbSequenceGenerator: DbSequenceGenerator
 
-
-    final var objectMapper = ObjectMapper()
-
     var developer = User("developer", 1L, "developerName", "developerLastName")
     var reviewer = User("reviewer", 2L, "reviewerName", "reviewerLastName")
 
 
+    final var objectMapper = ObjectMapper()
     init {
         objectMapper.setDefaultPrettyPrinter(PrettyPrinter())
     }
@@ -216,8 +214,8 @@ class BotServiceTest : DatabaseContainerConfiguration() {
 
     private fun assertResponseFromFile(response: List<TgResponse>, fileName: String) {
         assertEquals(
-            objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(response).replace("\n", "\r\n"),
-            getJsonFromFile(fileName)
+            objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(response).replace("\r", ""),
+            getJsonFromFile(fileName).replace("\r", "")
         )
     }
 
