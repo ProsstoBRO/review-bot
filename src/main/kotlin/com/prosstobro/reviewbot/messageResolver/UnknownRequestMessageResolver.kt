@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 class UnknownRequestMessageResolver : MessageResolver {
 
     override fun requestTypeIsMatched(request: String): Boolean {
-        return true
+        return false
     }
 
     override fun processAndCreateAnswer(request: TgRequest): List<TgResponse> {
