@@ -10,6 +10,7 @@ import com.prosstobro.reviewbot.utils.DbSequenceGenerator
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.io.File
+import javax.annotation.PostConstruct
 
 @Service
 class MigrationService(
@@ -18,6 +19,7 @@ class MigrationService(
     val dbSequenceGenerator: DbSequenceGenerator
 ) {
     @Transactional
+    @PostConstruct
     fun migrate() {
         val jacksonMapper = jacksonObjectMapper()
         val usersFromJson: List<User> = jacksonMapper.readValue(readFileAsText("users.json"))

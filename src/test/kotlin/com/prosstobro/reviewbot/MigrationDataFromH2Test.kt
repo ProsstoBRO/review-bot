@@ -42,7 +42,6 @@ class MigrationDataFromH2Test : DatabaseContainerConfiguration() {
 
     @Test
     fun migrationTestUsers() {
-        migrationService.migrate()
         val jacksonMapper = jacksonObjectMapper()
 
         val users = userRepository.findAll()
