@@ -7,13 +7,11 @@ spring:
   data:
     mongodb:
       authentication-database: admin
-      username: rootuser
-      password: rootpass
+      username: ${MONGO_USER}
+      password: ${MONGO_PASSWORD}
       database: review-bot
       port: 27017
-      host: localhost
-
-
+      host: mongodb
 
 management:
   endpoints:

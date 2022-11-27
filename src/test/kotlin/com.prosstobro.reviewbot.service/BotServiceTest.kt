@@ -17,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.core.io.ResourceLoader
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.testcontainers.junit.jupiter.Testcontainers
 import utils.DatabaseContainerConfiguration
@@ -25,6 +26,7 @@ import utils.PrettyPrinter
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest
+@ActiveProfiles("test")
 @Testcontainers
 class BotServiceTest : DatabaseContainerConfiguration() {
 
