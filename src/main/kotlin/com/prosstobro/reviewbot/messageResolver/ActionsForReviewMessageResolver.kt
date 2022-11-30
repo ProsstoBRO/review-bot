@@ -1,7 +1,7 @@
 package com.prosstobro.reviewbot.messageResolver
 
-import com.prosstobro.reviewbot.domain.JiraTaskStatus.IN_REVIEW
-import com.prosstobro.reviewbot.domain.JiraTaskStatus.WAITING_FOR_REVIEW
+import com.prosstobro.reviewbot.domain.JiraTaskStatus.*
+import com.prosstobro.reviewbot.domain.JiraTaskType
 import com.prosstobro.reviewbot.domain.TgRequest
 import com.prosstobro.reviewbot.domain.TgResponse
 import com.prosstobro.reviewbot.repository.JiraTaskRepository
@@ -19,7 +19,9 @@ class ActionsForReviewMessageResolver(val jiraTaskRepository: JiraTaskRepository
         val taskId = request.data.split("_").last().toLong()
         val task = jiraTaskRepository.findById(taskId).get()
 
-        return if (WAITING_FOR_REVIEW == task.status)
+        return if (CREATED == task.status && JiraTaskType.DEFECT == task.type)
+            listOf(TgResponse(request.chatId, "Выберите действие", keyboardUtils.createActionsForCreatedDefect(task)))
+        else if (WAITING_FOR_REVIEW == task.status)
             listOf(TgResponse(request.chatId, "Выберите действие", keyboardUtils.createActionsForTaskWaitingForReview(task.id.toString())))
         else if(IN_REVIEW == task.status)
             listOf(TgResponse(request.chatId, "Выберите действие", keyboardUtils.createActionsForTaskInReview(task.id.toString())))

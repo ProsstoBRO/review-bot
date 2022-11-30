@@ -46,7 +46,8 @@ class JiraTaskService(
     fun startReview(taskId: Long, reviewerId: Long): JiraTask {
         val task = jiraTaskRepository.findById(taskId).get()
         if (task.reviewer == null) {
-            setReviewerForTask(taskId, reviewerId)
+            val reviewer = userRepository.findById(reviewerId).get()
+            task.reviewer = reviewer
         }
         task.status = IN_REVIEW
         return jiraTaskRepository.save(task)

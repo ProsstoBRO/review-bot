@@ -25,7 +25,7 @@ class CommandDefectsOnReviewListMessageResolver(
                 TgResponse(
                     request.chatId,
                     "Выберите дефект:",
-                    keyboardUtils.createTasksForDeveloperKeyboard(defects)
+                    keyboardUtils.createTasksForReviewKeyboard(defects)
                 )
             )
         } else {

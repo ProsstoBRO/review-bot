@@ -1,0 +1,12 @@
+[
+  {
+    "chatId": 2,
+    "text": "НОВЫЙ ДЕФЕКТ на ревью",
+    "keyboardMarkup": null
+  },
+  {
+    "chatId": 1,
+    "text": "Задача успешно создана! Все ревьюеры будут оповещены",
+    "keyboardMarkup": null
+  }
+]

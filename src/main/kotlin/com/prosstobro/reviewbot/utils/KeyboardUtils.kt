@@ -7,7 +7,6 @@ import com.prosstobro.reviewbot.domain.User
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton
-import java.math.BigInteger
 import java.util.stream.Collectors
 
 @Component
@@ -99,8 +98,7 @@ class KeyboardUtils {
     fun createActionsForCreatedDefect(jiraTask: JiraTask): InlineKeyboardMarkup {
         return InlineKeyboardMarkup(
             listOf(
-                createButton("Взять в ревью", "/start_review_${jiraTask.id}"),
-                createButton("Изменить ревьюера", "/change_reviewer_for_task_${jiraTask.id}")
+                createButton("Взять в ревью", "/start_review_${jiraTask.id}")
             )
         )
     }

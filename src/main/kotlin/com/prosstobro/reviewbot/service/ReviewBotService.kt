@@ -8,33 +8,20 @@ import com.prosstobro.reviewbot.messageResolver.MessageResolver
 import com.prosstobro.reviewbot.messageResolver.UnknownRequestMessageResolver
 import com.prosstobro.reviewbot.repository.UserRepository
 import mu.KotlinLogging
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import org.telegram.telegrambots.bots.TelegramLongPollingBot
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage
+import org.springframework.transaction.annotation.Transactional
 import org.telegram.telegrambots.meta.api.objects.Update
 import javax.annotation.PostConstruct
 
 @Service
-class BotService(
-    val userRepository: UserRepository,
+class ReviewBotService(
     val messageResolvers: MutableMap<String, MessageResolver>,
     val unknownRequestMessageResolver: UnknownRequestMessageResolver,
-    val loginMessageResolver: LoginMessageResolver
-) : TelegramLongPollingBot() {
-
+    val loginMessageResolver: LoginMessageResolver,
+    val userRepository: UserRepository,
+) {
     private val logger = KotlinLogging.logger {}
     private val resolversToSkip: List<String> = listOf("LoginMessageResolver", "UnknownRequestMessageResolver")
-
-    @Value("\${bot.token}")
-    private val botToken: String = ""
-
-    @Value("\${bot.name}")
-    private val botName: String = ""
-
-    override fun getBotToken(): String = botToken
-    override fun getBotUsername(): String = botName
 
     @PostConstruct
     private fun postConstruct() {
@@ -42,19 +29,7 @@ class BotService(
             messageResolvers.remove(resolverToSkip)
     }
 
-    override fun onUpdateReceived(update: Update?) {
-        if (update!!.hasMessage() || update.hasCallbackQuery()) {
-            deleteLastMessageIfPressButton(update)
-            val request: TgRequest = getRequestFromUpdate(update)
-
-            val tgResponses = processMessage(request)
-
-            sendTgResponse(tgResponses)
-            logger.info { "Send answers: '$tgResponses'" }
-        }
-    }
-
-    fun processMessage(request: TgRequest): List<TgResponse> {
+    fun processRequest(request: TgRequest): List<TgResponse> {
         logger.info { "Received message: '${request.data}' from chatId: '${request.chatId}' user: '${request.user.toString()}'" }
 
         var tgResponses = loginMessageResolver.processAndCreateAnswer(request)
@@ -70,7 +45,8 @@ class BotService(
         return tgResponses
     }
 
-    private fun getRequestFromUpdate(update: Update) = if (update.hasMessage()) {
+    @Transactional
+    fun getRequestFromUpdate(update: Update) = if (update.hasMessage()) {
         var user = userRepository.findByChatId(update.message.chatId)
         if (update.message.from.lastName == null) {
             update.message.from.lastName = ""
@@ -89,29 +65,5 @@ class BotService(
         TgRequest(update.callbackQuery.message.chatId, update.callbackQuery.data, user)
     } else {
         throw IllegalArgumentException("Cannot get request from update")
-    }
-
-    private fun sendTgResponse(tgResponses: List<TgResponse>) {
-        for (answer in tgResponses) {
-            sendMessageByChatId(answer)
-        }
-    }
-
-    private fun sendMessageByChatId(tgResponse: TgResponse) {
-        val responseMessage = SendMessage(tgResponse.chatId.toString(), tgResponse.text)
-        responseMessage.replyMarkup = tgResponse.keyboardMarkup
-        execute(responseMessage)
-    }
-
-    private fun deleteLastMessageIfPressButton(update: Update?) {
-        if (update != null) {
-            if (update.hasCallbackQuery()) run {
-                val deleteMessage = DeleteMessage(
-                    update.callbackQuery.message.chatId.toString(),
-                    update.callbackQuery.message.messageId
-                )
-                execute(deleteMessage)
-            }
-        }
     }
 }
