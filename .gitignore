@@ -6,6 +6,7 @@ build/
 !**/src/test/**/build/
 review-bot-db.mv.db
 review-bot-db.trace.db
+*.log
 
 ### STS ###
 .apt_generated

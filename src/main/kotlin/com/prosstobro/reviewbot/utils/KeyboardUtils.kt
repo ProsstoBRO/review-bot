@@ -43,7 +43,7 @@ class KeyboardUtils {
         val reviewersButtons = reviewers.stream()
             .map { reviewer ->
                 createButton(
-                    "@${reviewer.tgLogin}",
+                    "@${reviewer.tgLogin} (${reviewer.firstName} ${reviewer.lastName})",
                     "/set_reviewer_${reviewer.id}_for_task_${taskId}"
                 )
             }.collect(Collectors.toList())

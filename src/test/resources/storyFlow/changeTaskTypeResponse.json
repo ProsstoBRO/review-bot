@@ -6,7 +6,7 @@
       "inline_keyboard": [
         [
           {
-            "text": "@reviewer",
+            "text": "@reviewer (reviewerName reviewerLastName)",
             "callback_data": "/set_reviewer_2_for_task_1"
           }
         ]

@@ -20,7 +20,7 @@ class CommandMyReviewListMessageResolver(val jiraTaskService: JiraTaskService, v
             true -> listOf(
                 TgResponse(
                     request.chatId,
-                    "Задачин на ревью",
+                    "Задачи на ревью",
                     keyboardUtils.createTasksForReviewKeyboard(tasksForReview)
                 )
             )
