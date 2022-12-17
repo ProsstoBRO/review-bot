@@ -10,7 +10,7 @@ class SprintNumberMessageResolver(
     val sprintNumberCalculator: SprintNumberCalculator
 ) : MessageResolver {
     override fun requestTypeIsMatched(request: String): Boolean {
-        return request == "sprint"
+        return request == "/sprint"
     }
 
     override fun processAndCreateAnswer(request: TgRequest): List<TgResponse> {
