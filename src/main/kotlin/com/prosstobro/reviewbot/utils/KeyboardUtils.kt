@@ -18,6 +18,8 @@ class KeyboardUtils {
             buttons.add(createButton("Создать задачу", "/create"))
         if (roles.contains(DEVELOPER))
             buttons.add(createButton("Список моих задач", "/my_tasks"))
+        if (roles.contains(DEVELOPER))
+            buttons.add(createButton("Номер спринта", "/sprint"))
         if (roles.contains(REVIEWER))
             buttons.add(createButton("Список моих ревью", "/tasks_in_review"))
         if (roles.contains(REVIEWER))
